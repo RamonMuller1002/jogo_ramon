@@ -1,4 +1,4 @@
-function Classes() {
+
 
     class vehicle {
         constructor(tipo, marca, cor, velocidade, passageiros) {
@@ -20,7 +20,7 @@ function Classes() {
         }
     }
 
-
+function Classes() {
     const criacao = () => {
         const carro = new vehicle('sedan', 'Mercedes', 'preto', 0, 5)
         const outro_carro = new vehicle('wagon', 'Volkswagen', 'azul petroleo', 0, 5)
