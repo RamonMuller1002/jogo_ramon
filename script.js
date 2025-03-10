@@ -11,16 +11,22 @@ const personagem = {
     altura: 50,
     largura: 50,
     velocidadeY: 0,
-    pulando: false
+    pulando: false,
+    img_src: './static/Dino.png',
+    imagem: new Image(50, 50),
 }
+personagem.imagem.src = personagem.img_src;
 
 const obstaculo = {
     x: canvas.width - 50,
-    y: canvas.height - 100,
+    y: canvas.height - 200,
     largura: 50,
     altura: 100,
     velocidadeX: 5,
+    img_src: './static/Pinheiro.png',
+    imagem: new Image(50, 100)
 }
+obstaculo.imagem.src = obstaculo.img_src;
 
 document.addEventListener('keypress', (e) => {
     if (e.code == 'Space' && personagem.y == (canvas.height - 50)) {
@@ -36,23 +42,37 @@ document.addEventListener('click', (e) => {
 })
 
 const desenharPersonagem = () => {
-    ctx.fillStyle = 'white'
-    ctx.fillRect(personagem.x, personagem.y, personagem.largura, personagem.altura);
+    // ctx.fillStyle = 'white'
+    // ctx.fillRect(personagem.x, personagem.y, personagem.largura, personagem.altura);
+
+    ctx.drawImage(
+        personagem.imagem, 
+        personagem.x , 
+        personagem.y, 
+        personagem.largura,
+        personagem.altura)
 }
 
 const desenhaObstaculo = () => {
-    ctx.fillStyle = "Red"
-    ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.largura, obstaculo.altura)
+    // ctx.fillStyle = "Red"
+    // ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.largura, obstaculo.altura)
+
+    ctx.drawImage(
+        obstaculo.imagem,
+        obstaculo.x,
+        obstaculo.y,
+        obstaculo.largura,
+        obstaculo.altura)
 }
 
 const atulalizaObstaculo = () => {
     obstaculo.x -= obstaculo.velocidadeX
-    if (obstaculo.x <= - obstaculo.largura) {
-        obstaculo.x = canvas.width
-        obstaculo.velocidadeX += 0.2
-        let novaAltura = (Math.random() * 50) + 100
-        obstaculo.altura += novaAltura
-        obstaculo.y = canvas.height - novaAltura
+    if (obstaculo.x <= 0 - obstaculo.largura) {
+            obstaculo.x = canvas.width
+            obstaculo.velocidadeX += 0.2
+            let novaAltura = (Math.random() * 50) + 100
+            obstaculo.altura += novaAltura
+            obstaculo.y = canvas.height - novaAltura
     }
 }
 
