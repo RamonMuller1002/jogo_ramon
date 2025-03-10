@@ -36,3 +36,9 @@ function Classes() {
     }
     criacao();
 }
+
+
+function POO (){
+    class Carro extends vehicle,
+    class Aviao extends vehicle
+}
