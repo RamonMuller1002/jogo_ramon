@@ -24,11 +24,39 @@ class Entidade{
 }
 
 class Personagem extends Entidade{
-    constructor(x, y, largura, altura, velocidadeY){
-        super(x, y, largura, altura, velocidadeY);
-        this.velocidadeY = 0;
+    #pulando
+    #velocidadeY
+    constructor(x, y, largura, altura){
+        super(x, y, largura, altura);
+        this.#pulando = false;
+        this.#velocidadeY = 0;
         //this.img_src = './static/Dino.png';
         //this.imagem = new Image(50, 50);
+    }
+    saltar = function (){
+        personagem.#velocidadeY = 17
+        personagem.#pulando = true;
+        console.log('pulou')
+    }
+    get pulando(){
+        return this.#pulando;
+    }
+
+    atualizarPersonagem = () => {
+        /**Etapa do pulo:
+        1: Capturar evento
+        2: Aumentar velocidade y
+        3: Mexer na função de atualizar o personagem*/
+    
+        if (this.#pulando === true) {
+            this.#velocidadeY -= this.gravidade;
+            this.y -= this.#velocidadeY;
+            if (this.y >= (canvas.height - 50)) {
+                this.#velocidadeY = 0
+                this.#pulando = false
+                this.y = (canvas.height - 50)
+            }
+        }
     }
 }
 
@@ -40,38 +68,22 @@ class Obstaculo extends Entidade{
         //this.imagem = new Image(50, 100);
 
     }
+    
+    atulalizaObstaculo = () => {
+        obstaculo.x -= obstaculo.velocidadeX
+        if (obstaculo.x <= 0 - obstaculo.largura) {
+                obstaculo.x = canvas.width
+                obstaculo.velocidadeX += 0.2
+                let novaAltura = (Math.random() * 50) + 100
+                obstaculo.altura += novaAltura
+                obstaculo.y = canvas.height - novaAltura
+        }
+    }
 }
-
-
-/* Objetos antigos
-const personagem = {
-    x: 100,
-    y: canvas.height - 50,
-    altura: 50,
-    largura: 50,
-    velocidadeY: 0,
-    pulando: false,
-    this.img_src = './static/Pinheiro.png';
-    this.imagem = new Image(50, 100);
-}
-personagem.imagem.src = personagem.img_src;
-
-const obstaculo = {
-    x: canvas.width - 50,
-    y: canvas.height - 200,
-    largura: 50,
-    altura: 100,
-    velocidadeX: 5,
-    img_src: './static/Pinheiro.png',
-    imagem: new Image(50, 100)
-}
-obstaculo.imagem.src = obstaculo.img_src;
-*/
 
 document.addEventListener('keypress', (e) => {
-    if (e.code == 'Space' && personagem.y == (canvas.height - 50)) {
-        personagem.velocidadeY = 17
-        personagem.pulando = true
+    if (e.code == 'Space' && personagem.pulando == false) {
+        personagem.saltar();
     }
 })
 
@@ -81,40 +93,6 @@ document.addEventListener('click', (e) => {
     }
 })
 
-
-/* Funções antigas
-const desenhaObstaculo = () => {
-    // ctx.fillStyle = "Red"
-    // ctx.fillRect(obstaculo.x, obstaculo.y, obstaculo.largura, obstaculo.altura)
-}
-
-const atulalizaObstaculo = () => {
-    obstaculo.x -= obstaculo.velocidadeX
-    if (obstaculo.x <= 0 - obstaculo.largura) {
-            obstaculo.x = canvas.width
-            obstaculo.velocidadeX += 0.2
-            let novaAltura = (Math.random() * 50) + 100
-            obstaculo.altura += novaAltura
-            obstaculo.y = canvas.height - novaAltura
-    }
-}
-
-const atualizarPersonagem = () => {
-    //Etapa do pulo:
-    //1: Capturar evento
-    //2: Aumentar velocidade y
-    //3: Mexer na função de atualizar o personagem
-
-    if (personagem.pulando === true) {
-        personagem.velocidadeY -= gravidade;
-        personagem.y -= personagem.velocidadeY;
-        if (personagem.y >= (canvas.height - 50)) {
-            personagem.velocidadeY = 0
-            personagem.pulando = false
-            personagem.y = (canvas.height - 50)
-        }
-    }
-}  
 function gameOver() {
     game_Over = true
 
@@ -130,16 +108,17 @@ function gameOver() {
     
 }
 
+
 const colisao = () => {
     if (personagem.x < obstaculo.x + obstaculo.largura && personagem.x + personagem.largura > obstaculo.x &&
         personagem.y < obstaculo.y + obstaculo.altura && personagem.y + personagem.altura > obstaculo.y) {
         gameOver();
     }
 }
-*/
 
-const personagem = new Personagem(50, canvas.height - 50, 50 ,50)
 
+const personagem = new Personagem(50, canvas.height - 50, 50 ,50);
+const obstaculo = new Obstaculo(canvas.width - 100, canvas.height - 50, 50 ,150);
 
 /*Criar função loop /enviar função loop. querepetirá 60 vezes por segundo(60Hz) */
 const loop = () => {
@@ -150,14 +129,13 @@ const loop = () => {
     
         //Desenhar novamente
         personagem.desenharEntidade(ctx, 'black');
-        
-        /*desenhaObstaculo();
+        obstaculo.desenharEntidade(ctx, 'RED');
 
         colisao();
 
         //Atualizar posições 
-        atualizarPersonagem();
-        atulalizaObstaculo();*/
+        personagem.atualizarPersonagem();
+        obstaculo.atulalizaObstaculo();
 
         //Chamar loop denovo 
         requestAnimationFrame(loop)
