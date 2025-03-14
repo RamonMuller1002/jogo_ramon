@@ -58,22 +58,29 @@ class Personagem extends Entidade{
             }
         }
     }
+    colisao = () => {
+        if (personagem.x < obstaculo.x + obstaculo.largura && personagem.x + personagem.largura > obstaculo.x &&
+            personagem.y < obstaculo.y + obstaculo.altura && personagem.y + personagem.altura > obstaculo.y) {
+            gameOver();
+        }
+    }
 }
 
 class Obstaculo extends Entidade{
-    constructor(x, y, largura, altura, velocidadeX, img_src, imagem ){
-        super(x, y, largura, altura, velocidadeX, img_src, imagem );
-        this.velocidadeX = 5;
+    #velocidadeX
+    constructor(x, y, largura, altura, img_src, imagem ){
+        super(x, y, largura, altura, img_src, imagem );
+        this.#velocidadeX = 5;
         //this.img_src = './static/Pinheiro.png';
         //this.imagem = new Image(50, 100);
 
     }
     
     atulalizaObstaculo = () => {
-        obstaculo.x -= obstaculo.velocidadeX
+        obstaculo.x -= this.#velocidadeX
         if (obstaculo.x <= 0 - obstaculo.largura) {
                 obstaculo.x = canvas.width
-                obstaculo.velocidadeX += 0.2
+                this.#velocidadeX += 0.2;
                 let novaAltura = (Math.random() * 50) + 100
                 obstaculo.altura += novaAltura
                 obstaculo.y = canvas.height - novaAltura
@@ -109,14 +116,6 @@ function gameOver() {
 }
 
 
-const colisao = () => {
-    if (personagem.x < obstaculo.x + obstaculo.largura && personagem.x + personagem.largura > obstaculo.x &&
-        personagem.y < obstaculo.y + obstaculo.altura && personagem.y + personagem.altura > obstaculo.y) {
-        gameOver();
-    }
-}
-
-
 const personagem = new Personagem(50, canvas.height - 50, 50 ,50);
 const obstaculo = new Obstaculo(canvas.width - 100, canvas.height - 50, 50 ,150);
 
@@ -131,7 +130,7 @@ const loop = () => {
         personagem.desenharEntidade(ctx, 'black');
         obstaculo.desenharEntidade(ctx, 'RED');
 
-        colisao();
+        personagem.colisao();
 
         //Atualizar posições 
         personagem.atualizarPersonagem();
