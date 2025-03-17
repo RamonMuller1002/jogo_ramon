@@ -18,16 +18,30 @@
         }
         canvas{
             margin-top: 5%;
-            background-image: url(/jogo.1/static/Fundo.jpg);
+            background-image: url(static/Fundo.jpg);
+            /* background-color: blueviolet;  */
             background-size: cover;
             background-repeat: no-repeat;
         }
+        .div-pontuacao{
+            color: black;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
     </style>
 </head>
 <body>
     <canvas id="jogo2D" width="900vh" height="500vh">
-    
     </canvas>
-    <script src="script2.js"></script>
+
+    <div class="div-pontuacao">
+        <p>Pontuação: </p>
+        <p id="pontuacao"></p>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
