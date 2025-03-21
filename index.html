@@ -1,11 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo 3d Ramon</title>
+    <title>Jogo 2d Ramon</title>
+    <style>
+        *{
+            color: white;
+            margin: 0;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            background-color: rgb(56, 56, 56);
+        }
+        canvas{
+            margin-top: 5%;
+            background-image: url(static/Fundo.jpg);
+            /* background-color: blueviolet;  */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .div-pontuacao{
+            color: black;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
 </head>
 <body>
-    <p>Ola trouxa, por enquanto é só teste</p>
+    <canvas id="jogo2D" width="900vh" height="500vh">
+    </canvas>
+
+    <div class="div-pontuacao">
+        <p>Pontuação: </p>
+        <p id="pontuacao"></p>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
